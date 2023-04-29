@@ -1,0 +1,173 @@
+swagger: "2.0"
+info:
+  title: Student CRUD API
+  description: This is my Student CRUD API Documentation
+  version: 1.0
+  contact:
+    email: nitugiri02@gmail.com
+  liscence:
+    name: Apache 2.0
+    url: "http://www.apache.org/liscences/LIS"
+  servers:
+    -url: http://localhost:8080
+    description: THis is my local Server
+    -url: http://example.com/
+    description: This is my original URL
+schemes: [http]
+
+
+#Return Students From get request
+paths:
+  # /string:
+  #   get:
+  #     summary: Returns a string.
+  #     description: String Chechup
+  #     responses:
+  #       200:    # status code
+  #         description: Successul Response
+  #         schema: 
+  #           type: string
+  #           example: "Students String"
+  #       400:
+  #         description: Student Error
+  #         schema: 
+  #           type: string
+  #           example: "Some Error "
+
+
+
+#Returns a Student List of array
+  /:
+    get:
+      tags:
+      - Student
+      summary: Returns a list of Students.
+      description: Students Who are present in database
+      responses:
+        200:    # status code
+          description: Successul Response
+          schema:
+           type: array
+           items: 
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              age:
+                type: integer
+              roleNo:
+                type: integer
+              address:
+                type: string
+  /create:
+    post:
+      summary: Add a new Student
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          schema:
+           $ref: "#/components/schemas/User"
+      responses:
+        '200':
+          description: OK
+        "405":
+          description: "Invalid input"
+      
+      
+
+
+  paths:
+  /{id}:
+    delete:
+      summary: "Delete an Student by ID"
+      parameters:
+        - name: id
+          in: path
+          description: "ID of the Student to delete"
+          required: true
+          type: string
+      responses:
+        200:
+          description: "Student deleted successfully"
+        404:
+          description: "Student not found"
+
+
+
+
+
+
+
+  paths:
+  /post/{id}:
+    put:
+      summary: "To Updat Student"
+      description: "Update Student by ID"
+      operationId: "updateStudent"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "update student by ID"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "body"
+        description: "Student object"
+        required: true
+        schema:
+          $ref: "#/definitions/Student"
+      responses:
+        "500":
+          description: "Internal server error"
+        "404":
+          description: "Student not found"
+      x-swagger-router-controller: "Student"
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        age:
+          type: integer  
+        roleNo:
+          type: integer
+        address:
+          type: string                
+
+
+definitions:
+  Student:
+    type: "object"
+    properties:
+      id:
+        type: integer
+      name:
+        type: "string"
+      age:
+        type: integer
+      roleNo:
+          type: integer
+      address:
+        type: "string"
+            
+
+
+
+
+
+
